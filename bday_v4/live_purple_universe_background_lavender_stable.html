@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live Purple Particle Universe</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#010008}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
+.overlay{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 49%,rgba(150,105,255,.10),rgba(65,35,115,.035) 34%,transparent 64%),radial-gradient(ellipse at center,transparent 48%,rgba(0,0,0,.38))}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas><div class="overlay"></div>
+<script>
+(()=> {
+const c=document.getElementById("c"),ctx=c.getContext("2d");
+let W,H,D,particles=[],t=0;
+const mouse={x:-1e5,y:-1e5,vx:0,vy:0,active:false}; let px=0,py=0;
+
+function resize(){
+ W=innerWidth;H=innerHeight;D=Math.min(devicePixelRatio||1,2);
+ c.width=W*D;c.height=H*D;ctx.setTransform(D,0,0,D,0,0);particles=[];
+ const n=Math.min(30000,Math.max(15000,Math.floor(W*H/48)));
+ for(let i=0;i<n;i++){
+   const central=Math.random()<.80,a=Math.random()*Math.PI*2;
+   const r=central?Math.pow(Math.random(),2.05)*Math.min(W,H)*.46:Math.pow(Math.random(),.72)*Math.min(W,H)*.78;
+   const x=W*.5+Math.cos(a)*r*(1+(Math.random()-.5)*.18);
+   const y=H*.5+Math.sin(a)*r*.56+(Math.random()-.5)*(central?H*.045:H*.13);
+   const z=Math.random();
+   particles.push({x,y,ox:x,oy:y,vx:(Math.random()-.5)*.010,vy:(Math.random()-.5)*.010,s:.22+z*.72,a:.035+z*.34,p:Math.random()*6.28,h:Math.random()});
+ }
+}
+addEventListener("resize",resize);
+addEventListener("pointermove",e=>{mouse.vx=e.clientX-px;mouse.vy=e.clientY-py;mouse.x=e.clientX;mouse.y=e.clientY;mouse.active=true;px=e.clientX;py=e.clientY},{passive:true});
+addEventListener("pointerleave",()=>mouse.active=false);
+
+function draw(){
+ t+=.00055;ctx.fillStyle="#010008";ctx.fillRect(0,0,W,H);
+ const g=ctx.createRadialGradient(W*.5,H*.5,0,W*.5,H*.5,Math.min(W,H)*.52);
+ g.addColorStop(0,"rgba(185,140,255,.065)");g.addColorStop(.35,"rgba(125,75,205,.022)");g.addColorStop(1,"rgba(0,0,0,0)");
+ ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ for(const q of particles){
+   q.vx+=(q.ox-q.x)*.0000015+Math.sin(t*1.7+q.p)*.000018;
+   q.vy+=(q.oy-q.y)*.0000015+Math.cos(t*1.35+q.p)*.000018;
+   q.vx*=.9985;q.vy*=.9985;q.x+=q.vx+Math.sin(t+q.p)*.0018;q.y+=q.vy+Math.cos(t*.8+q.p)*.0013;
+   if(mouse.active){
+     const dx=q.x-mouse.x,dy=q.y-mouse.y,d=Math.hypot(dx,dy)||1,R=155+q.s*80;
+     if(d<R){
+        // Strong, smooth mouse disturbance without launching particles permanently away.
+        const f=(1-d/R)*(1-d/R)*.030;
+        q.vx+=dx/d*f+mouse.vx*.00016;
+        q.vy+=dy/d*f+mouse.vy*.00016;
+      }
+    }
+
+    // Keep the particle universe alive: particles are gently pulled back from
+    // the screen edges instead of being allowed to fly away forever.
+    const pad=28, edge=115;
+    if(q.x<pad) q.vx+=(pad-q.x)/edge*.018;
+    else if(q.x>W-pad) q.vx-=(q.x-(W-pad))/edge*.018;
+    if(q.y<pad) q.vy+=(pad-q.y)/edge*.018;
+    else if(q.y>H-pad) q.vy-=(q.y-(H-pad))/edge*.018;
+
+    // Safety net: if an extreme interaction pushes one off-screen, respawn it
+    // near its original position so the field never becomes empty.
+    if(q.x<-80 || q.x>W+80 || q.y<-80 || q.y>H+80){
+      q.x=q.ox; q.y=q.oy;
+      q.vx*=0.12; q.vy*=0.12;
+    }
+   const a=q.a*(.78+.22*Math.sin(t*5+q.p));
+   ctx.fillStyle=q.h<.25?`rgba(196,155,255,${a*.82})`:`rgba(214,191,255,${a})`;
+   ctx.fillRect(q.x,q.y,q.s,q.s);
+ }
+ requestAnimationFrame(draw);
+}
+resize();draw();
+})();
+</script>
+</body>
+</html>
