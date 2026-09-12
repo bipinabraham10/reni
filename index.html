@@ -919,6 +919,1549 @@
           transition-duration: 0.001ms !important;
         }
       }
+
+      /* --- Living journey timeline --- */
+      .storymap {
+        position: relative;
+        min-height: 1450px;
+        padding: 15vh 7vw 16vh;
+        overflow: hidden;
+        isolation: isolate;
+      }
+      .storymap:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            circle at 52% 18%,
+            rgba(185, 156, 255, 0.12),
+            transparent 28%
+          ),
+          radial-gradient(
+            circle at 78% 70%,
+            rgba(153, 113, 255, 0.07),
+            transparent 30%
+          );
+        pointer-events: none;
+        z-index: -1;
+      }
+      .storymap .sm-head {
+        max-width: 520px;
+        position: relative;
+        z-index: 3;
+        margin-bottom: 5vh;
+      }
+      .storymap .sm-kicker {
+        font:
+          600 10px/1.2 "DM Mono",
+          monospace;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: #bda9df;
+        opacity: 0.9;
+        margin-bottom: 18px;
+      }
+      .storymap .sm-kicker:before {
+        content: "";
+        display: inline-block;
+        width: 28px;
+        height: 1px;
+        background: #a98cff;
+        vertical-align: middle;
+        margin-right: 12px;
+        box-shadow: 0 0 12px #a98cff;
+      }
+      .storymap h2 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 400;
+        font-size: clamp(54px, 7vw, 102px);
+        line-height: 0.78;
+        letter-spacing: -0.035em;
+        margin: 0;
+        color: #f5efff;
+      }
+      .storymap h2 em {
+        display: block;
+        color: #b99cff;
+        font-style: italic;
+      }
+      .storymap .sm-sub {
+        max-width: 410px;
+        margin: 30px 0 0;
+        color: rgba(238, 231, 248, 0.66);
+        font-size: 14px;
+        line-height: 1.8;
+      }
+      .storymap .sm-sub strong {
+        color: #e8dcff;
+        font-weight: 400;
+      }
+      .sm-stage {
+        position: relative;
+        max-width: 1100px;
+        margin: 0 auto;
+        height: 1010px;
+      }
+      .sm-cosmos {
+        position: absolute;
+        inset: -5% -12%;
+        pointer-events: none;
+        overflow: visible;
+      }
+      .sm-cosmos .dust {
+        position: absolute;
+        border-radius: 50%;
+        background: #c8afff;
+        box-shadow: 0 0 14px #a887ff;
+        opacity: 0.55;
+        animation: smFloat var(--d, 8s) ease-in-out infinite alternate;
+      }
+      .sm-cosmos .dust:nth-child(1) {
+        width: 3px;
+        height: 3px;
+        left: 14%;
+        top: 9%;
+        --d: 7s;
+      }
+      .sm-cosmos .dust:nth-child(2) {
+        width: 2px;
+        height: 2px;
+        left: 78%;
+        top: 14%;
+        --d: 9s;
+      }
+      .sm-cosmos .dust:nth-child(3) {
+        width: 4px;
+        height: 4px;
+        left: 9%;
+        top: 58%;
+        --d: 11s;
+      }
+      .sm-cosmos .dust:nth-child(4) {
+        width: 2px;
+        height: 2px;
+        left: 90%;
+        top: 52%;
+        --d: 6s;
+      }
+      .sm-cosmos .dust:nth-child(5) {
+        width: 3px;
+        height: 3px;
+        left: 72%;
+        top: 88%;
+        --d: 10s;
+      }
+      .sm-cosmos .dust:nth-child(6) {
+        width: 2px;
+        height: 2px;
+        left: 24%;
+        top: 82%;
+        --d: 8s;
+      }
+      @keyframes smFloat {
+        to {
+          transform: translate3d(0, -18px, 0);
+          opacity: 0.95;
+        }
+      }
+      .sm-path {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      .sm-path .glow {
+        fill: none;
+        stroke: #8f65ff;
+        stroke-width: 12;
+        opacity: 0.1;
+        filter: blur(9px);
+      }
+      .sm-path .main {
+        fill: none;
+        stroke: url(#journeyGradient);
+        stroke-width: 2.2;
+        stroke-linecap: round;
+        filter: drop-shadow(0 0 8px rgba(160, 115, 255, 0.9));
+        stroke-dasharray: 1800;
+        stroke-dashoffset: 1800;
+      }
+      .sm-path .sparkline {
+        fill: none;
+        stroke: #d5c0ff;
+        stroke-width: 1;
+        opacity: 0.55;
+        stroke-dasharray: 3 13;
+        animation: smDash 9s linear infinite;
+      }
+      @keyframes smDash {
+        to {
+          stroke-dashoffset: -180;
+        }
+      }
+      .sm-event {
+        position: absolute;
+        width: min(300px, 29vw);
+        padding-top: 14px;
+        opacity: 0;
+        transform: translateY(30px) scale(0.97);
+        will-change: transform, opacity;
+        z-index: 2;
+      }
+      .sm-event.left {
+        text-align: right;
+      }
+      .sm-event.right {
+        text-align: left;
+      }
+      .sm-event[data-i="0"] {
+        left: 0;
+        top: 8%;
+      }
+      .sm-event[data-i="1"] {
+        right: 0;
+        top: 23%;
+      }
+      .sm-event[data-i="2"] {
+        right: 2%;
+        top: 40%;
+      }
+      .sm-event[data-i="3"] {
+        left: 2%;
+        top: 54%;
+      }
+      .sm-event[data-i="4"] {
+        right: 0;
+        top: 69%;
+      }
+      .sm-event[data-i="5"] {
+        left: 4%;
+        top: 85%;
+      }
+      .sm-event .sm-date {
+        font:
+          500 10px/1.4 "DM Mono",
+          monospace;
+        letter-spacing: 0.18em;
+        color: #bca8df;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+      }
+      .sm-event h3 {
+        font:
+          400 italic 34px/1 "Cormorant Garamond",
+          serif;
+        margin: 0 0 8px;
+        color: #f4edff;
+      }
+      .sm-event p {
+        font-size: 12px;
+        line-height: 1.6;
+        color: rgba(232, 223, 245, 0.62);
+        margin: 0;
+        max-width: 270px;
+      }
+      .sm-event.left p {
+        margin-left: auto;
+      }
+      .sm-node {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 58px;
+        height: 58px;
+        transform: translate(-50%, -50%);
+        border: 1px solid rgba(211, 188, 255, 0.48);
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 35% 30%,
+          rgba(239, 222, 255, 0.18),
+          rgba(93, 58, 153, 0.12) 45%,
+          rgba(9, 6, 18, 0.72) 72%
+        );
+        box-shadow:
+          0 0 0 1px rgba(170, 130, 255, 0.08),
+          0 0 25px rgba(135, 90, 255, 0.28),
+          inset 0 0 18px rgba(198, 166, 255, 0.1);
+        backdrop-filter: blur(6px);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition:
+          transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow 0.45s ease,
+          border-color 0.45s ease;
+        z-index: 3;
+      }
+      .sm-node:before,
+      .sm-node:after {
+        content: "";
+        position: absolute;
+        inset: -7px;
+        border: 1px solid rgba(166, 128, 255, 0.18);
+        border-radius: 50%;
+        animation: smOrbit 8s linear infinite;
+      }
+      .sm-node:after {
+        inset: -13px;
+        border-style: dashed;
+        opacity: 0.35;
+        animation-duration: 13s;
+        animation-direction: reverse;
+      }
+      @keyframes smOrbit {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .sm-node {
+        isolation: isolate;
+        overflow: visible;
+      }
+      .sm-node .node-core {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        pointer-events: none;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.07),
+          transparent 58%
+        );
+        opacity: 0.65;
+        transition:
+          transform 0.45s ease,
+          opacity 0.45s ease;
+      }
+      .sm-node:focus-visible {
+        outline: 1px solid rgba(235, 215, 255, 0.95);
+        outline-offset: 7px;
+      }
+      .sm-node:hover .node-core {
+        transform: scale(1.18);
+        opacity: 1;
+      }
+      .sm-event.sm-selected .sm-node {
+        border-color: rgba(236, 219, 255, 0.96);
+        box-shadow:
+          0 0 0 1px rgba(191, 151, 255, 0.3),
+          0 0 70px rgba(151, 99, 255, 0.68),
+          inset 0 0 34px rgba(226, 205, 255, 0.2);
+      }
+      .sm-event.sm-selected .sm-date {
+        color: #e5d5ff;
+        text-shadow: 0 0 14px rgba(188, 151, 255, 0.45);
+      }
+      .sm-event.sm-selected h3 {
+        color: #fff8ff;
+      }
+      .sm-event.sm-selected p {
+        color: rgba(244, 235, 255, 0.8);
+      }
+      .sm-feature.sm-selected h3 {
+        color: #fff0f8;
+        text-shadow: 0 0 28px rgba(255, 130, 196, 0.6);
+      }
+      .sm-feature.sm-selected .sm-node {
+        box-shadow:
+          0 0 0 1px rgba(255, 191, 226, 0.35),
+          0 0 110px rgba(255, 101, 188, 0.65),
+          inset 0 0 38px rgba(255, 222, 239, 0.25);
+      }
+      .sm-click-ring,
+      .sm-click-spark {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        pointer-events: none;
+        z-index: 8;
+      }
+      .sm-click-ring {
+        width: 92px;
+        height: 92px;
+        border: 1px solid rgba(224, 202, 255, 0.75);
+        border-radius: 50%;
+        transform: translate(-50%, -50%) scale(0.35);
+        animation: smClickRing 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .sm-click-ring.r2 {
+        animation-delay: 0.08s;
+        opacity: 0.5;
+      }
+      @keyframes smClickRing {
+        0% {
+          opacity: 0.9;
+          transform: translate(-50%, -50%) scale(0.3);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(2.35);
+        }
+      }
+      .sm-click-spark {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #eee2ff;
+        box-shadow:
+          0 0 10px #c4a7ff,
+          0 0 18px rgba(174, 130, 255, 0.7);
+        animation: smSpark 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        --sx: 0px;
+        --sy: -70px;
+      }
+      @keyframes smSpark {
+        0% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy)))
+            scale(0.15);
+        }
+      }
+      .sm-feature .sm-click-ring {
+        border-color: rgba(255, 210, 232, 0.95);
+        box-shadow: 0 0 20px rgba(255, 120, 195, 0.5);
+      }
+      .sm-yes-flash {
+        position: absolute;
+        left: 50%;
+        top: 69%;
+        width: 240px;
+        height: 240px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 2;
+        background: radial-gradient(
+          circle,
+          rgba(255, 184, 220, 0.34),
+          rgba(255, 105, 185, 0.12) 30%,
+          transparent 68%
+        );
+        transform: translate(-50%, -50%) scale(0.4);
+        animation: smYesFlash 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes smYesFlash {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.25);
+        }
+        18% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(1.55);
+        }
+      }
+      .sm-yes-petal {
+        position: absolute;
+        left: 50%;
+        top: 69%;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 18px;
+        color: #ffd2e8;
+        text-shadow: 0 0 12px rgba(255, 113, 190, 0.9);
+        pointer-events: none;
+        z-index: 4;
+        animation: smPetal 1.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        --sx: 0px;
+        --sy: -100px;
+        --rot: 0deg;
+      }
+      @keyframes smPetal {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.25) rotate(0);
+        }
+        15% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy)))
+            scale(1) rotate(var(--rot));
+        }
+      }
+      .sm-yes-heart {
+        position: absolute;
+        left: 50%;
+        top: 69%;
+        font-size: 28px;
+        color: #ffe0ef;
+        filter: drop-shadow(0 0 12px rgba(255, 116, 190, 0.95));
+        pointer-events: none;
+        z-index: 5;
+        animation: smHeartFly 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        --sx: 0px;
+        --sy: -90px;
+      }
+      @keyframes smHeartFly {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.2);
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy)))
+            scale(1.2);
+        }
+      }
+      .sm-node:hover {
+        transform: translate(-50%, -50%) scale(1.12);
+        border-color: rgba(231, 211, 255, 0.85);
+        box-shadow:
+          0 0 0 1px rgba(188, 145, 255, 0.2),
+          0 0 55px rgba(151, 99, 255, 0.55),
+          inset 0 0 30px rgba(216, 190, 255, 0.16);
+      }
+      .sm-node svg {
+        width: 21px;
+        height: 21px;
+        stroke: #e9d9ff;
+        fill: none;
+        stroke-width: 1.7;
+        filter: drop-shadow(0 0 7px rgba(220, 195, 255, 0.65));
+      }
+      .sm-event .connector {
+        position: absolute;
+        top: 0;
+        width: 92px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #a989e9, transparent);
+        opacity: 0.6;
+        z-index: 1;
+      }
+      .sm-event.left .connector {
+        right: -92px;
+      }
+      .sm-event.right .connector {
+        left: -92px;
+      }
+      .sm-event .connector:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 5px;
+        height: 5px;
+        background: #e6d5ff;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #c2a2ff;
+      }
+      .sm-event.left .connector:after {
+        right: 5px;
+      }
+      .sm-event.right .connector:after {
+        left: 5px;
+      }
+      .sm-feature {
+        width: min(360px, 32vw) !important;
+      }
+      .sm-feature h3 {
+        font-size: 40px;
+        color: #ffdff0;
+        text-shadow: 0 0 22px rgba(255, 154, 209, 0.32);
+      }
+      .sm-feature .sm-node {
+        width: 64px;
+        height: 64px;
+        background: radial-gradient(
+          circle at 35% 30%,
+          rgba(255, 233, 246, 0.24),
+          rgba(116, 58, 116, 0.17) 45%,
+          rgba(12, 5, 17, 0.78) 73%
+        );
+        border-color: rgba(255, 189, 224, 0.62);
+        box-shadow:
+          0 0 45px rgba(255, 104, 190, 0.24),
+          inset 0 0 22px rgba(255, 205, 232, 0.13);
+      }
+      .sm-feature .sm-node svg {
+        width: 24px;
+        height: 24px;
+        stroke: #ffd7eb;
+        fill: #ffd7eb;
+      }
+      .sm-pulse {
+        position: absolute;
+        left: 50%;
+        top: 69%;
+        width: 180px;
+        height: 180px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        pointer-events: none;
+        background: radial-gradient(
+          circle,
+          rgba(255, 132, 197, 0.1),
+          transparent 62%
+        );
+        animation: smPulse 3.8s ease-in-out infinite;
+      }
+      @keyframes smPulse {
+        50% {
+          transform: translate(-50%, -50%) scale(1.45);
+          opacity: 0.45;
+        }
+      }
+      .sm-tooltip {
+        position: fixed;
+        z-index: 50;
+        pointer-events: none;
+        padding: 9px 12px;
+        border: 1px solid rgba(205, 180, 255, 0.25);
+        background: rgba(8, 5, 15, 0.86);
+        backdrop-filter: blur(12px);
+        font:
+          10px "DM Mono",
+          monospace;
+        letter-spacing: 0.08em;
+        color: #e7d8ff;
+        opacity: 0;
+        transform: translate(-50%, -130%);
+        white-space: nowrap;
+      }
+      .sm-bottom {
+        position: absolute;
+        bottom: 3%;
+        left: 50%;
+        transform: translateX(-50%);
+        font:
+          9px "DM Mono",
+          monospace;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: rgba(210, 191, 238, 0.5);
+        white-space: nowrap;
+      }
+      .sm-bottom:before,
+      .sm-bottom:after {
+        content: "";
+        display: inline-block;
+        width: 42px;
+        height: 1px;
+        background: rgba(186, 154, 238, 0.3);
+        vertical-align: middle;
+        margin: 0 12px;
+      }
+      .sm-orbit-label {
+        position: absolute;
+        right: 2%;
+        top: 8%;
+        font:
+          italic 18px "Cormorant Garamond",
+          serif;
+        color: rgba(211, 186, 246, 0.7);
+        transform: rotate(-7deg);
+        max-width: 160px;
+        text-align: center;
+      }
+      /* Desktop readability / balanced milestone composition */
+      @media (min-width: 801px) {
+        /* Desktop: nodes deliberately wander across the central path instead of stacking on one x-axis. */
+        .sm-event {
+          width: 286px;
+          padding-top: 16px;
+        }
+        .sm-event.left {
+          left: auto;
+          right: calc(50% + 42px);
+          text-align: right;
+          padding-right: 0;
+        }
+        .sm-event.right {
+          left: calc(50% + 42px);
+          right: auto;
+          text-align: left;
+          padding-left: 0;
+        }
+        .sm-event .sm-date {
+          font-size: 11px;
+          line-height: 1.55;
+          letter-spacing: 0.14em;
+          margin-bottom: 9px;
+          white-space: nowrap;
+          color: #d1c0ee;
+          text-shadow: 0 0 10px rgba(125, 88, 200, 0.18);
+        }
+        .sm-event h3 {
+          font-size: 36px;
+          line-height: 0.98;
+          margin-bottom: 9px;
+        }
+        .sm-event p {
+          font-size: 13px;
+          line-height: 1.65;
+          max-width: 255px;
+        }
+        .sm-node {
+          left: auto;
+          top: 0;
+          width: 56px;
+          height: 56px;
+          transform: translateY(-50%);
+        }
+        .sm-event.left .sm-node {
+          right: -90px;
+        }
+        .sm-event.right .sm-node {
+          left: -90px;
+        }
+        .sm-event .connector {
+          top: 0;
+          width: 90px;
+          opacity: 0.72;
+        }
+        .sm-event.left .connector {
+          right: -90px;
+        }
+        .sm-event.right .connector {
+          left: -90px;
+        }
+        .sm-event.left .connector:after {
+          right: 2px;
+        }
+        .sm-event.right .connector:after {
+          left: 2px;
+        }
+        .sm-node svg {
+          width: 20px;
+          height: 20px;
+        }
+
+        /* Each event gets its own horizontal offset, while its node stays visually attached to the progress path. */
+        .sm-event[data-i="0"] {
+          right: calc(50% + 92px);
+          top: 7%;
+        }
+        .sm-event[data-i="1"] {
+          left: calc(50% + 112px);
+          right: auto;
+          top: 22%;
+        }
+        .sm-event[data-i="2"] {
+          left: calc(50% + 58px);
+          right: auto;
+          top: 39%;
+        }
+        .sm-event[data-i="3"] {
+          right: calc(50% + 112px);
+          top: 54%;
+        }
+        .sm-event[data-i="4"] {
+          left: calc(50% + 126px);
+          right: auto;
+          top: 70%;
+        }
+        .sm-event[data-i="5"] {
+          right: calc(50% + 76px);
+          top: 86%;
+        }
+
+        .sm-feature {
+          width: 320px !important;
+        }
+        .sm-feature h3 {
+          font-size: 40px;
+          line-height: 0.95;
+        }
+        .sm-feature .sm-node {
+          width: 64px;
+          height: 64px;
+          right: -102px;
+        }
+        .sm-feature .sm-node svg {
+          width: 24px;
+          height: 24px;
+        }
+        .sm-feature .connector {
+          width: 102px;
+          right: -102px;
+        }
+        .sm-feature .sm-date {
+          font-size: 11px;
+        }
+      }
+      @media (max-width: 800px) {
+        .storymap {
+          min-height: 1550px;
+          padding: 12vh 7vw;
+        }
+        .sm-stage {
+          height: 1190px;
+        }
+        .sm-path {
+          left: 24%;
+          width: 76%;
+        }
+        .sm-event {
+          width: 62vw;
+          padding-top: 10px;
+          padding-left: 64px;
+        }
+        .sm-event.left,
+        .sm-event.right {
+          text-align: left;
+        }
+        .sm-event[data-i="0"] {
+          left: 42%;
+          right: auto;
+          top: 6%;
+        }
+        .sm-event[data-i="1"] {
+          right: 0;
+          left: auto;
+          top: 22%;
+        }
+        .sm-event[data-i="2"] {
+          right: 0;
+          left: auto;
+          top: 38%;
+        }
+        .sm-event[data-i="3"] {
+          left: 42%;
+          right: auto;
+          top: 53%;
+        }
+        .sm-event[data-i="4"] {
+          right: 0;
+          left: auto;
+          top: 68%;
+        }
+        .sm-event[data-i="5"] {
+          left: 42%;
+          right: auto;
+          top: 84%;
+        }
+        .sm-node {
+          left: 24%;
+          width: 48px;
+          height: 48px;
+        }
+        .sm-event .connector {
+          width: 48px;
+        }
+        .sm-event.left .connector,
+        .sm-event.right .connector {
+          left: -55px;
+          right: auto;
+        }
+        .sm-event.left .connector:after,
+        .sm-event.right .connector:after {
+          left: 4px;
+          right: auto;
+        }
+        .sm-feature {
+          width: 62vw !important;
+        }
+        .sm-orbit-label {
+          display: none;
+        }
+        .sm-event h3 {
+          font-size: 30px;
+        }
+        .sm-feature h3 {
+          font-size: 34px;
+        }
+        .sm-feature .sm-node {
+          width: 54px;
+          height: 54px;
+        }
+        .sm-node svg {
+          width: 18px;
+          height: 18px;
+        }
+        .sm-bottom {
+          bottom: 1%;
+          font-size: 8px;
+        }
+        .sm-bottom:before,
+        .sm-bottom:after {
+          width: 18px;
+        }
+      }
+      @media (max-width: 800px) {
+        .storymap {
+          min-height: 1550px;
+          padding: 12vh 7vw;
+        }
+        .sm-stage {
+          height: 1190px;
+        }
+        .sm-path {
+          left: 24%;
+          width: 76%;
+        }
+        .sm-event {
+          width: 62vw;
+          padding-top: 10px;
+          padding-left: 64px;
+        }
+        .sm-event.left,
+        .sm-event.right {
+          text-align: left;
+        }
+        .sm-event[data-i="0"] {
+          left: 42%;
+          top: 6%;
+        }
+        .sm-event[data-i="1"] {
+          right: 0;
+          top: 22%;
+        }
+        .sm-event[data-i="2"] {
+          right: 0;
+          top: 38%;
+        }
+        .sm-event[data-i="3"] {
+          left: 42%;
+          top: 53%;
+        }
+        .sm-event[data-i="4"] {
+          right: 0;
+          top: 68%;
+        }
+        .sm-event[data-i="5"] {
+          left: 42%;
+          top: 84%;
+        }
+        .sm-node {
+          left: 24%;
+          width: 48px;
+          height: 48px;
+        }
+        .sm-event .connector {
+          width: 48px;
+        }
+        .sm-event.left .connector,
+        .sm-event.right .connector {
+          left: -55px;
+          right: auto;
+        }
+        .sm-event.left .connector:after,
+        .sm-event.right .connector:after {
+          left: 4px;
+          right: auto;
+        }
+        .sm-feature {
+          width: 62vw !important;
+        }
+        .sm-orbit-label {
+          display: none;
+        }
+        .sm-event h3 {
+          font-size: 30px;
+        }
+        .sm-feature h3 {
+          font-size: 34px;
+        }
+        .sm-feature .sm-node {
+          width: 54px;
+          height: 54px;
+        }
+        .sm-node svg {
+          width: 18px;
+          height: 18px;
+        }
+        .sm-bottom {
+          bottom: 1%;
+          font-size: 8px;
+        }
+        .sm-bottom:before,
+        .sm-bottom:after {
+          width: 18px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sm-cosmos .dust,
+        .sm-node:before,
+        .sm-node:after,
+        .sm-path .sparkline,
+        .sm-pulse {
+          animation: none !important;
+        }
+      }
+
+      /* --- Memory scrapbook gallery --- */
+      .memory-gallery {
+        position: relative;
+        padding: 16vh 6vw 12vh;
+        overflow: hidden;
+        isolation: isolate;
+      }
+      .memory-gallery:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            circle at 50% 15%,
+            rgba(185, 156, 255, 0.13),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 15% 80%,
+            rgba(255, 130, 196, 0.05),
+            transparent 28%
+          );
+        pointer-events: none;
+        z-index: -1;
+      }
+      .memory-gallery__head {
+        max-width: 680px;
+        margin: 0 auto 9vh;
+        text-align: center;
+      }
+      .memory-gallery__kicker {
+        font:
+          600 10px/1.2 "DM Mono",
+          monospace;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: #bda9df;
+        margin-bottom: 18px;
+      }
+      .memory-gallery__head h2 {
+        font:
+          400 clamp(48px, 7vw, 92px)/0.82 "Cormorant Garamond",
+          serif;
+        letter-spacing: -0.035em;
+        margin: 0;
+        color: #f6f0ff;
+      }
+      .memory-gallery__head h2 em {
+        color: #b99cff;
+      }
+      .memory-gallery__head p {
+        max-width: 520px;
+        margin: 25px auto 0;
+        color: rgba(238, 231, 248, 0.6);
+        font-size: 13px;
+        line-height: 1.8;
+      }
+      .memory-gallery__grid {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 30px 24px;
+        max-width: 1180px;
+        margin: auto;
+        padding: 36px 24px 54px;
+        border: 1px solid rgba(205, 180, 255, 0.08);
+        background: rgba(7, 5, 13, 0.26);
+      }
+      .memory-gallery__card {
+        position: relative;
+        padding: 10px 10px 42px;
+        background: linear-gradient(
+          145deg,
+          rgba(245, 239, 250, 0.08),
+          rgba(255, 255, 255, 0.025)
+        );
+        border: 1px solid rgba(225, 213, 239, 0.14);
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+        transform: rotate(var(--r));
+        transition:
+          transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow 0.5s;
+        cursor: pointer;
+      }
+      .memory-gallery__card:hover {
+        transform: translateY(-12px) rotate(0deg) scale(1.035);
+        z-index: 5;
+        box-shadow:
+          0 30px 70px rgba(0, 0, 0, 0.42),
+          0 0 35px rgba(153, 107, 255, 0.13);
+      }
+      .memory-gallery__card img {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        display: block;
+        object-fit: cover;
+        filter: saturate(0.76) brightness(0.9);
+        transition: filter 0.4s;
+      }
+      .memory-gallery__card:hover img {
+        filter: saturate(1) brightness(1);
+      }
+      .memory-gallery__card:after {
+        content: "memory / " attr(data-num);
+        position: absolute;
+        left: 12px;
+        bottom: 14px;
+        font:
+          8px "DM Mono",
+          monospace;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(225, 213, 239, 0.48);
+      }
+      .memory-gallery__pin {
+        position: absolute;
+        top: -7px;
+        left: 50%;
+        width: 14px;
+        height: 14px;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 35% 30%,
+          #f5eaff,
+          #9d79d7 45%,
+          #4a2f73 70%
+        );
+        box-shadow: 0 0 15px rgba(181, 139, 255, 0.45);
+        z-index: 2;
+      }
+      .memory-gallery__note {
+        grid-column: span 2;
+        align-self: center;
+        padding: 15px 18px;
+        border-left: 1px solid rgba(205, 180, 255, 0.3);
+        font:
+          italic 24px/1.2 "Cormorant Garamond",
+          serif;
+        color: rgba(240, 232, 250, 0.72);
+      }
+      .memory-gallery__note small {
+        font-size: 14px;
+      }
+      .memory-gallery__lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        display: grid;
+        place-items: center;
+        padding: 28px;
+        background: rgba(3, 2, 8, 0.82);
+        backdrop-filter: blur(16px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s;
+      }
+      .memory-gallery__lightbox.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .memory-gallery__lightbox-inner {
+        max-width: min(880px, 92vw);
+        max-height: 88vh;
+        position: relative;
+        text-align: center;
+      }
+      .memory-gallery__lightbox img {
+        max-width: 100%;
+        max-height: 72vh;
+        display: block;
+        margin: auto;
+        object-fit: contain;
+        border: 1px solid rgba(220, 205, 240, 0.18);
+        box-shadow: 0 30px 100px rgba(0, 0, 0, 0.55);
+      }
+      .memory-gallery__lightbox-title {
+        font:
+          italic 34px "Cormorant Garamond",
+          serif;
+        color: #f5edff;
+        margin-top: 15px;
+      }
+      .memory-gallery__lightbox-close {
+        position: absolute;
+        right: -8px;
+        top: -45px;
+        border: 0;
+        background: none;
+        color: #d9c8ed;
+        font:
+          24px "DM Mono",
+          monospace;
+        cursor: pointer;
+      }
+      .memory-gallery__lightbox-meta {
+        font:
+          9px "DM Mono",
+          monospace;
+        letter-spacing: 0.16em;
+        color: rgba(221, 208, 237, 0.5);
+        text-transform: uppercase;
+        margin-top: 4px;
+      }
+      @media (max-width: 900px) {
+        .memory-gallery__grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px 16px;
+          padding: 28px 14px 42px;
+        }
+        .memory-gallery__note {
+          grid-column: span 3;
+        }
+      }
+      @media (max-width: 600px) {
+        .memory-gallery {
+          padding: 13vh 5vw 8vh;
+        }
+        .memory-gallery__grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 22px 12px;
+        }
+        .memory-gallery__note {
+          grid-column: span 2;
+          font-size: 21px;
+        }
+        .memory-gallery__note small {
+          font-size: 12px;
+        }
+        .memory-gallery__lightbox-title {
+          font-size: 28px;
+        }
+        .memory-gallery__lightbox-close {
+          right: 0;
+          top: -38px;
+        }
+      }
+
+      /* --- Cinematic final note --- */
+      .cinematic-note {
+        position: relative;
+        min-height: 235svh;
+        padding: 16vh 6vw 12vh;
+        overflow: hidden;
+        isolation: isolate;
+      }
+      .cinematic-note::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            circle at 50% 10%,
+            rgba(185, 156, 255, 0.13),
+            transparent 25%
+          ),
+          radial-gradient(
+            circle at 18% 48%,
+            rgba(154, 116, 255, 0.045),
+            transparent 24%
+          ),
+          radial-gradient(
+            circle at 84% 72%,
+            rgba(185, 156, 255, 0.05),
+            transparent 28%
+          ),
+          linear-gradient(
+            180deg,
+            transparent,
+            rgba(3, 2, 8, 0.18) 52%,
+            rgba(3, 2, 8, 0.42)
+          );
+        pointer-events: none;
+        z-index: -1;
+      }
+      .cinematic-note::after {
+        content: "";
+        position: absolute;
+        width: 42vw;
+        height: 42vw;
+        max-width: 620px;
+        max-height: 620px;
+        left: 50%;
+        top: 42%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        border: 1px solid rgba(185, 156, 255, 0.045);
+        box-shadow:
+          0 0 100px rgba(185, 156, 255, 0.035),
+          inset 0 0 100px rgba(185, 156, 255, 0.018);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .cinematic-note__intro {
+        min-height: 76svh;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        position: relative;
+      }
+      .cinematic-note__intro > div:first-child {
+        transform: translateY(-3vh);
+      }
+      .cinematic-note__kicker {
+        font:
+          300 9px/1.2 "DM Mono",
+          monospace;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: #9a8db3;
+        margin-bottom: 25px;
+      }
+      .cinematic-note__kicker::before,
+      .cinematic-note__kicker::after {
+        content: "";
+        display: inline-block;
+        width: 34px;
+        height: 1px;
+        vertical-align: middle;
+        margin: 0 13px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(185, 156, 255, 0.5)
+        );
+      }
+      .cinematic-note__kicker::after {
+        background: linear-gradient(
+          90deg,
+          rgba(185, 156, 255, 0.5),
+          transparent
+        );
+      }
+      .cinematic-note__intro h2 {
+        max-width: 920px;
+        margin: 0 auto;
+        font:
+          400 clamp(58px, 8.5vw, 118px)/0.82 "Cormorant Garamond",
+          serif;
+        letter-spacing: -0.05em;
+        color: #eee9e6;
+        text-wrap: balance;
+      }
+      .cinematic-note__intro h2 em {
+        color: #b99cff;
+      }
+      .cinematic-note__intro p {
+        max-width: 430px;
+        margin: 34px auto 0;
+        color: #777071;
+        font-size: 11px;
+        line-height: 1.9;
+      }
+      .cinematic-note__scroll {
+        position: absolute;
+        left: 50%;
+        bottom: 3vh;
+        transform: translateX(-50%);
+        font:
+          300 8px "DM Mono",
+          monospace;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #5f595e;
+      }
+      .cinematic-note__scroll::after {
+        content: "";
+        display: block;
+        width: 1px;
+        height: 54px;
+        margin: 12px auto 0;
+        background: linear-gradient(#b99cff, transparent);
+        animation: cinematicLine 2.2s ease-in-out infinite;
+      }
+      @keyframes cinematicLine {
+        50% {
+          opacity: 0.18;
+          transform: scaleY(0.35);
+          transform-origin: top;
+        }
+      }
+      .cinematic-note__body {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .cinematic-note__chapter {
+        min-height: 76svh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding: 12vh 0;
+      }
+      .cinematic-note__chapter::before {
+        content: "";
+        position: absolute;
+        left: -52px;
+        top: 18%;
+        width: 1px;
+        height: 64%;
+        background: linear-gradient(
+          transparent,
+          rgba(185, 156, 255, 0.16),
+          transparent
+        );
+        transform-origin: top;
+        transform: scaleY(0);
+        transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .cinematic-note__chapter.is-visible::before {
+        transform: scaleY(1);
+      }
+      .cinematic-note__chapter::after {
+        content: "✦";
+        position: absolute;
+        left: -56px;
+        top: 17%;
+        color: rgba(185, 156, 255, 0.5);
+        font-size: 8px;
+        opacity: 0;
+        transform: scale(0.5) rotate(-20deg);
+        transition:
+          opacity 0.7s ease 0.45s,
+          transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.45s;
+      }
+      .cinematic-note__chapter.is-visible::after {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+      .cinematic-note__text {
+        opacity: 0;
+        transform: translateY(42px);
+        filter: blur(5px);
+        will-change: transform, opacity, filter;
+      }
+      .cinematic-note__text strong {
+        display: block;
+        margin-bottom: 30px;
+        color: #eee9e6;
+        font:
+          400 clamp(30px, 3.6vw, 48px)/1.08 "Cormorant Garamond",
+          serif;
+        letter-spacing: -0.025em;
+        text-wrap: balance;
+      }
+      .cinematic-note__text strong .cn-char {
+        display: inline-block;
+      }
+      .cinematic-note__text .cn-word {
+        display: inline-block;
+        white-space: nowrap;
+      }
+      .cinematic-note__text p {
+        margin: 0;
+        color: #aaa4a2;
+        font:
+          400 clamp(20px, 2.15vw, 28px)/1.58 "Cormorant Garamond",
+          serif;
+        text-wrap: pretty;
+      }
+      .cinematic-note__text p .cn-char {
+        display: inline-block;
+        opacity: 0.16;
+        transform: translateY(8px);
+        filter: blur(3px);
+        transition: color 0.35s ease;
+      }
+      .cinematic-note__text p .soft {
+        color: #d8c8ef;
+      }
+      .cinematic-note__text p .love-line {
+        display: inline;
+        color: #d9c4ff;
+        font-family: "Ballet", "Cormorant Garamond", serif;
+        font-size: 1.12em;
+        letter-spacing: 0.015em;
+        text-shadow: 0 0 24px rgba(185, 156, 255, 0.16);
+      }
+      .cinematic-note__text p .love-line .cn-char {
+        color: #d9c4ff;
+      }
+      .cinematic-note__final {
+        min-height: 72svh;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 12vh 0 6vh;
+        position: relative;
+      }
+      .cinematic-note__final::before {
+        content: "";
+        position: absolute;
+        top: 14%;
+        left: 50%;
+        width: min(180px, 30vw);
+        height: 1px;
+        transform: translateX(-50%) scaleX(0);
+        transform-origin: center;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(185, 156, 255, 0.45),
+          transparent
+        );
+      }
+      .cinematic-note__final.is-visible::before {
+        transform: translateX(-50%) scaleX(1);
+        transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .cinematic-note__final-line {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+        max-width: 760px;
+        color: #eee9e6;
+        font:
+          italic 400 clamp(34px, 5vw, 65px)/0.98 "Cormorant Garamond",
+          serif;
+        letter-spacing: -0.035em;
+      }
+      .cinematic-note__final-line em {
+        color: #b99cff;
+        font-style: italic;
+      }
+      .cinematic-note__heart {
+        display: block;
+        margin: 34px auto 0;
+        font:
+          400 20px "Cormorant Garamond",
+          serif;
+        color: #b99cff;
+        opacity: 0;
+        transform: scale(0.7);
+        text-shadow: 0 0 28px rgba(185, 156, 255, 0.7);
+      }
+      @media (max-width: 780px) {
+        .cinematic-note {
+          min-height: auto;
+          padding: 8vh 7vw 6vh;
+        }
+        .cinematic-note__intro {
+          min-height: 72svh;
+        }
+        .cinematic-note__intro h2 {
+          font-size: clamp(56px, 16vw, 86px);
+        }
+        .cinematic-note__intro p {
+          max-width: 330px;
+        }
+        .cinematic-note__chapter {
+          min-height: auto;
+          padding: 15vh 2vw;
+        }
+        .cinematic-note__chapter::before,
+        .cinematic-note__chapter::after {
+          display: none;
+        }
+        .cinematic-note__text strong {
+          font-size: 31px;
+          margin-bottom: 24px;
+        }
+        .cinematic-note__text p {
+          font-size: 22px;
+          line-height: 1.52;
+        }
+        .cinematic-note__final {
+          min-height: 60svh;
+          padding: 10vh 4vw 5vh;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .cinematic-note__scroll::after {
+          animation: none;
+        }
+      }
     </style>
   </head>
   <body>
@@ -983,6 +2526,169 @@
           ><span class="orbit-copy">hover · then enter</span>
         </div>
       </section>
+
+      <section class="storymap" id="journey">
+        <div class="sm-head">
+          <div class="sm-kicker">02 / the timeline</div>
+          <h2>Our little <em>journey.</em></h2>
+          <p class="sm-sub">
+            Different places. Different little moments.
+            <strong>One tiny universe</strong> that somehow started to feel like
+            ours.
+          </p>
+        </div>
+        <div class="sm-stage" id="storyStage">
+          <div class="sm-cosmos" aria-hidden="true">
+            <i class="dust"></i><i class="dust"></i><i class="dust"></i
+            ><i class="dust"></i><i class="dust"></i><i class="dust"></i>
+          </div>
+          <svg
+            class="sm-path"
+            viewBox="0 0 1000 1010"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="journeyGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#bca0ff" />
+                <stop offset=".45" stop-color="#9367ff" />
+                <stop offset=".73" stop-color="#e9a4db" />
+                <stop offset="1" stop-color="#b99cff" />
+              </linearGradient>
+            </defs>
+            <path
+              class="glow"
+              d="M500 82 C680 125 690 180 515 235 C350 287 310 355 505 410 C700 466 700 530 500 585 C300 640 310 710 510 760 C680 803 660 870 500 925"
+            />
+            <path
+              class="main"
+              id="journeyMainPath"
+              d="M500 82 C680 125 690 180 515 235 C350 287 310 355 505 410 C700 466 700 530 500 585 C300 640 310 710 510 760 C680 803 660 870 500 925"
+            />
+            <path
+              class="sparkline"
+              d="M500 82 C680 125 690 180 515 235 C350 287 310 355 505 410 C700 466 700 530 500 585 C300 640 310 710 510 760 C680 803 660 870 500 925"
+            />
+          </svg>
+          <div class="sm-orbit-label">
+            and just like that...<br />it began ♡
+          </div>
+          <div class="sm-pulse"></div>
+          <article class="sm-event left" data-i="0">
+            <div class="sm-date">04 · 12 · 2025 &nbsp;/&nbsp; 10:43 PM</div>
+            <h3>Arike</h3>
+            <p>The first little point on the map.</p>
+            <span class="connector"></span
+            ><button
+              class="sm-node"
+              data-tip="the first little point"
+              aria-label="Arike"
+            >
+              <span class="node-core"></span
+              ><svg viewBox="0 0 24 24">
+                <path d="M12 20s-6-3.7-6-9a6 6 0 0 1 12 0c0 5.3-6 9-6 9Z" />
+                <path d="M12 14.5v.01" />
+              </svg>
+            </button>
+          </article>
+          <article class="sm-event right" data-i="1">
+            <div class="sm-date">05 · 12 · 2025</div>
+            <h3>Insta</h3>
+            <p>A follow. A like. A tiny spark.</p>
+            <span class="connector"></span
+            ><button
+              class="sm-node"
+              data-tip="a tiny spark"
+              aria-label="Instagram"
+            >
+              <span class="node-core"></span
+              ><svg viewBox="0 0 24 24">
+                <rect x="4" y="4" width="16" height="16" rx="4" />
+                <circle cx="12" cy="12" r="4" />
+                <path d="M17.5 6.5h.01" />
+              </svg>
+            </button>
+          </article>
+          <article class="sm-event right" data-i="2">
+            <div class="sm-date">06 · 12 · 2025 &nbsp;/&nbsp; 09:13 PM</div>
+            <h3>WhatsApp</h3>
+            <p>From stories... to real conversations.</p>
+            <span class="connector"></span
+            ><button
+              class="sm-node"
+              data-tip="then we started talking"
+              aria-label="WhatsApp"
+            >
+              <span class="node-core"></span
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M20 11.5a8 8 0 0 1-12 6.9L4 20l1.6-3.7A8 8 0 1 1 20 11.5Z"
+                />
+                <path
+                  d="M8.5 9.2c.4 2 1.6 3.2 3.5 4.1.7.3 1.1.1 1.5-.4l.5-.7"
+                />
+              </svg>
+            </button>
+          </article>
+          <article class="sm-event left" data-i="3">
+            <div class="sm-date">06 · 12 · 2025 &nbsp;/&nbsp; 12:52 AM</div>
+            <h3>The Call</h3>
+            <p>Your voice. My favourite sound.</p>
+            <span class="connector"></span
+            ><button
+              class="sm-node"
+              data-tip="your voice"
+              aria-label="The Call"
+            >
+              <span class="node-core"></span
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M7 4.5 4.8 6.2c-.8.6-.9 1.7-.4 2.5 2.3 4.1 5.8 7.6 9.9 9.9.8.5 1.9.4 2.5-.4l1.7-2.2-3.3-2.1-1.5 1.3a12.5 12.5 0 0 1-4.9-4.9l1.3-1.5L8.1 5.5 7 4.5Z"
+                />
+              </svg>
+            </button>
+          </article>
+          <article class="sm-event right sm-feature" data-i="4">
+            <div class="sm-date">07 · 12 · 2025 &nbsp;/&nbsp; 07:14 AM</div>
+            <h3>You said “YES.”</h3>
+            <p>The most beautiful little word in the world.</p>
+            <span class="connector"></span
+            ><button
+              class="sm-node"
+              data-tip="the moment everything glowed"
+              aria-label="She said YES"
+            >
+              <span class="node-core"></span
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M12 20.5S4 15.7 4 9.6C4 6.8 5.8 5 8.2 5c1.6 0 3 1 3.8 2.2C12.8 6 14.2 5 15.8 5 18.2 5 20 6.8 20 9.6c0 6.1-8 10.9-8 10.9Z"
+                />
+              </svg>
+            </button>
+          </article>
+          <article class="sm-event left" data-i="5">
+            <div class="sm-date">12 · 03</div>
+            <h3>Last message</h3>
+            <p>Some stories don't end... they just live in a different way.</p>
+            <span class="connector"></span
+            ><button
+              class="sm-node"
+              data-tip="some things stay"
+              aria-label="Last message"
+            >
+              <span class="node-core"></span
+              ><svg viewBox="0 0 24 24">
+                <path d="m4 11 16-7-5.5 16-3.2-6.1L4 11Z" />
+                <path d="m11.3 13.9 4.2-4.2" />
+              </svg>
+            </button>
+          </article>
+          <div class="sm-bottom">
+            different platforms · same little universe
+          </div>
+        </div>
+      </section>
+
       <section class="memories">
         <div class="head">
           <h2 class="reveal">Little<br /><i>moments.</i></h2>
@@ -1015,7 +2721,7 @@
             <div class="small">a moment worth keeping</div>
           </div>
         </article>
-
+        <br />
         <article class="memory reverse">
           <div class="frame magnetic">
             <div class="photo">
@@ -1028,14 +2734,18 @@
           </div>
           <div class="copy">
             <div class="index2">02 / THE QUIET ONES</div>
-            <h3>Even the<br /><i>imperfect ones.</i></h3>
+            <h3>
+              And here am<br /><i>still looking at you taking this nap</i>
+            </h3>
             <p>
-              The blurry, unplanned moments somehow feel the most real. They
-              don't need to be polished to be beautiful.
+              Time moves forward, but the right memories keep a little of their
+              warmth no matter how far away they are.
             </p>
             <div class="small">real life looked good on you</div>
           </div>
         </article>
+        <br />
+
         <article class="memory">
           <div class="frame magnetic">
             <div class="photo">
@@ -1048,7 +2758,7 @@
           </div>
           <div class="copy">
             <div class="index2">03 / A SOUND I REMEMBER</div>
-            <h3>You, the violin,<br /><i>and a little magic.</i></h3>
+            <h3>Memories that<br /><i>am gonna cherish Forever.</i></h3>
             <p>
               Some memories aren't photographs at all. They are sounds, moods,
               tiny scenes the mind knows how to replay.
@@ -1056,6 +2766,8 @@
             <div class="small">some moments have their own soundtrack</div>
           </div>
         </article>
+        <br />
+
         <article class="memory reverse">
           <div class="frame magnetic">
             <div class="photo">
@@ -1068,7 +2780,7 @@
           </div>
           <div class="copy">
             <div class="index2">04 / THROUGH A SCREEN</div>
-            <h3>Still close,<br /><i>even from far away.</i></h3>
+            <h3>Can look at this<br /><i>day long..</i></h3>
             <p>
               Distance has a strange way of making small moments feel enormous.
               A face on a screen can still change an ordinary day.
@@ -1076,6 +2788,8 @@
             <div class="small">thank you for the moments</div>
           </div>
         </article>
+        <br />
+
         <article class="memory">
           <div class="frame magnetic">
             <div class="photo">
@@ -1088,7 +2802,7 @@
           </div>
           <div class="copy">
             <div class="index2">05 / ANOTHER LITTLE MOMENT</div>
-            <h3>A little more<br /><i>light to keep.</i></h3>
+            <h3>Always keep this<br /><i>smile on your face.</i></h3>
             <p>
               The smallest moments can stay with us the longest, quietly making
               an ordinary day feel special.
@@ -1096,6 +2810,8 @@
             <div class="small">one more moment worth remembering</div>
           </div>
         </article>
+        <br />
+
         <article class="memory reverse">
           <div class="frame magnetic">
             <div class="photo">
@@ -1108,14 +2824,15 @@
           </div>
           <div class="copy">
             <div class="index2">06 / THE HAPPY ONES</div>
-            <h3>Some days<br /><i>feel like this.</i></h3>
+            <h3>Those days<br /><i>and Your Laughter</i></h3>
             <p>
-              A warm smile, a familiar feeling, and a moment that needs no
-              explanation to become memorable.
+              Never gonna miss to add this in core memories, because it was
+              worth trying those filters and seeing you laughing
             </p>
             <div class="small">keep the good ones close</div>
           </div>
         </article>
+        <br />
         <article class="memory">
           <div class="frame magnetic">
             <div class="photo">
@@ -1128,11 +2845,8 @@
           </div>
           <div class="copy">
             <div class="index2">07 / A GENTLE FRAME</div>
-            <h3>Beautifully<br /><i>unplanned.</i></h3>
-            <p>
-              Not every memory needs a reason. Some are worth keeping simply
-              because they feel like you.
-            </p>
+            <h3>Nothing felt<br /><i>cringy with you.</i></h3>
+            <p>Filtered video calls and unfiltered emotions</p>
             <div class="small">the unplanned ones matter too</div>
           </div>
         </article>
@@ -1150,8 +2864,8 @@
             <div class="index2">08 / THE SOFTER MOMENTS</div>
             <h3>Quietly<br /><i>beautiful.</i></h3>
             <p>
-              There is something lovely about the moments that do not ask to be
-              noticed, but stay in your mind anyway.
+              This is one of my favourite snaps of yours, blurry enough to stay
+              alive
             </p>
             <div class="small">soft memories still shine</div>
           </div>
@@ -1168,7 +2882,7 @@
           </div>
           <div class="copy">
             <div class="index2">09 / SOMETHING TO TREASURE</div>
-            <h3>Still worth<br /><i>remembering.</i></h3>
+            <h3>You gifting me<br /><i>moments to remember forever</i></h3>
             <p>
               Time moves forward, but the right memories keep a little of their
               warmth no matter how far away they are.
@@ -1204,8 +2918,9 @@
             <h2>Heyy <em>Prettyy </em></h2>
             <br />
             <p>
-              Some things feel better when they aren't said all at once. So let
-              this one arrive a little at a time.
+              These two worlds introduced you to me, I can remember that day
+              like yesterday, seeing that notification of our match and starting
+              the chat..
             </p>
           </div>
         </div>
@@ -1221,7 +2936,7 @@
             <div class="aside">a simple wish · nothing more</div>
           </div>
           <div class="letter-image reveal">
-            <img src="assets/memory-1.jpg" alt="A birthday memory" />
+            <img src="assets/img1.png" alt="A birthday memory" />
           </div>
         </article>
         <div class="letter-divider"></div>
@@ -1236,7 +2951,7 @@
             <div class="aside">some chapters stay meaningful</div>
           </div>
           <div class="letter-image reveal">
-            <img src="assets/memory-2.jpg" alt="A quiet memory" />
+            <img src="assets/img3.jpg" alt="A quiet memory" />
           </div>
         </article>
         <div class="letter-divider"></div>
@@ -1252,7 +2967,7 @@
             <div class="aside">only gratitude · only good wishes</div>
           </div>
           <div class="letter-image reveal">
-            <img src="assets/memory-3.jpg" alt="A music memory" />
+            <img src="assets/img2.jpg" alt="A music memory" />
           </div>
         </article>
         <div class="letter-divider"></div>
@@ -1302,6 +3017,221 @@
           </button>
         </div>
       </section>
+      <section class="memory-gallery" id="memoryGallery">
+        <div class="memory-gallery__head">
+          <div class="memory-gallery__kicker">03 / memories · kept softly</div>
+          <h2>Not just <em>pictures.</em></h2>
+          <p>
+            Ten little memories, gathered like pages from a scrapbook and kept
+            in this little universe.
+          </p>
+        </div>
+        <div class="memory-gallery__grid">
+          <article
+            class="memory-gallery__card"
+            style="--r: -2deg"
+            data-num="01"
+            data-title="The smile"
+          >
+            <span class="memory-gallery__pin"></span
+            ><img src="assets/memory-1.jpg" alt="Memory 1" loading="lazy" />
+          </article>
+          <article
+            class="memory-gallery__card"
+            style="--r: 1.4deg"
+            data-num="02"
+            data-title="The quiet ones"
+          >
+            <span class="memory-gallery__pin"></span
+            ><img src="assets/memory-2.jpg" alt="Memory 2" loading="lazy" />
+          </article>
+          <article
+            class="memory-gallery__card"
+            style="--r: -0.8deg"
+            data-num="03"
+            data-title="A sound I remember"
+          >
+            <span class="memory-gallery__pin"></span
+            ><img src="assets/memory-3.jpg" alt="Memory 3" loading="lazy" />
+          </article>
+          <article
+            class="memory-gallery__card"
+            style="--r: 2deg"
+            data-num="04"
+            data-title="Through a screen"
+          >
+            <span class="memory-gallery__pin"></span
+            ><img src="assets/memory-4.jpg" alt="Memory 4" loading="lazy" />
+          </article>
+          <article
+            class="memory-gallery__card"
+            style="--r: -1.2deg"
+            data-num="05"
+            data-title="Another little moment"
+          >
+            <span class="memory-gallery__pin"></span
+            ><img src="assets/memory-5.jpg" alt="Memory 5" loading="lazy" />
+          </article>
+          <!-- <div class="memory-gallery__note">
+            “Some memories are better kept softly.”<br /><small
+              >— somewhere in our little universe</small
+            >
+          </div> -->
+          <article
+            class="memory-gallery__card"
+            style="--r: 1.6deg"
+            data-num="06"
+            data-title="The happy ones"
+          >
+            <span class="memory-gallery__pin"></span
+            ><img src="assets/memory-6.jpg" alt="Memory 6" loading="lazy" />
+          </article>
+          <article
+            class="memory-gallery__card"
+            style="--r: -1.8deg"
+            data-num="07"
+            data-title="A gentle frame"
+          >
+            <span class="memory-gallery__pin"></span
+            ><img src="assets/memory-7.jpg" alt="Memory 7" loading="lazy" />
+          </article>
+          <article
+            class="memory-gallery__card"
+            style="--r: 0.9deg"
+            data-num="08"
+            data-title="The softer moments"
+          >
+            <span class="memory-gallery__pin"></span
+            ><img src="assets/memory-8.jpg" alt="Memory 8" loading="lazy" />
+          </article>
+          <article
+            class="memory-gallery__card"
+            style="--r: -1.4deg"
+            data-num="09"
+            data-title="Something to treasure"
+          >
+            <span class="memory-gallery__pin"></span
+            ><img src="assets/memory-9.jpg" alt="Memory 9" loading="lazy" />
+          </article>
+          <article
+            class="memory-gallery__card"
+            style="--r: 1.2deg"
+            data-num="10"
+            data-title="The last frame"
+          >
+            <span class="memory-gallery__pin"></span
+            ><img src="assets/memory-10.jpg" alt="Memory 10" loading="lazy" />
+          </article>
+          <article
+            class="memory-gallery__card"
+            style="--r: 1.2deg"
+            data-num="11"
+            data-title="The last frame"
+          >
+            <span class="memory-gallery__pin"></span
+            ><img src="assets/memory-11.jpeg" alt="Memory 11" loading="lazy" />
+          </article>
+        </div>
+      </section>
+
+      <section
+        class="cinematic-note"
+        id="cinematicNote"
+        aria-label="A final note"
+      >
+        <div class="cinematic-note__intro">
+          <div>
+            <div class="cinematic-note__kicker">07 / the last page</div>
+            <h2>A few things<br /><em>I still wanted to say.</em></h2>
+            <p>
+              Not another memory. Not another moment to hold onto.<br />Just a
+              few honest words, left here softly.
+            </p>
+          </div>
+          <div class="cinematic-note__scroll">read slowly</div>
+        </div>
+
+        <div class="cinematic-note__body">
+          <article class="cinematic-note__chapter">
+            <div class="cinematic-note__text">
+              <strong
+                >I carry every memory of us with total clarity, including the
+                mistakes I made along the way.</strong
+              >
+              <p>
+                Looking back, I want you to know from the absolute bottom of my
+                heart—and before God—that I never intentionally did anything to
+                drive you away or lose what we had. The pain of how things
+                turned out is something I carry every day, but my intentions
+                were never to hurt you.
+              </p>
+            </div>
+          </article>
+
+          <article class="cinematic-note__chapter">
+            <div class="cinematic-note__text">
+              <strong
+                >Even now, you remain a quiet, constant presence in my
+                life.</strong
+              >
+              <p>
+                I find myself starting each morning talking to you in my
+                thoughts, and I keep you in my prayers every single day. Missing
+                you has become a familiar ache, and I won't hide the truth:
+                <span class="soft love-line"
+                  >I still love you deeply, right now and forever.</span
+                >
+                I am truly, deeply sorry for the role I played in our story
+                ending the way it did, and I wish more than anything that things
+                could be different.
+              </p>
+            </div>
+          </article>
+
+          <article class="cinematic-note__chapter">
+            <div class="cinematic-note__text">
+              <strong
+                >Beyond my own regret, what I want most for you is complete
+                happiness.</strong
+              >
+              <p>
+                Looking at everything you have built, I am constantly in awe of
+                your strength. You have achieved so much entirely on your own,
+                rising above every single hurdle and hardship life placed in
+                your path. You possess a resilience that is uniquely yours, and
+                you should be immensely proud of the person you have become.
+              </p>
+            </div>
+          </article>
+
+          <article class="cinematic-note__chapter">
+            <div class="cinematic-note__text">
+              <strong
+                >When heavy burdens or unexpected challenges arise, please
+                remember how capable you are.</strong
+              >
+              <p>
+                Don't let doubt or sadness weigh you down when times get tough;
+                trust that there is a higher purpose guiding your steps and that
+                you already have the strength inside you to overcome it. Have
+                faith in yourself, keep moving forward, and know that I will
+                always be wishing you safety, peace, and the fulfillment of
+                every dream you carry.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="cinematic-note__final">
+          <div>
+            <div class="cinematic-note__final-line">
+              Whatever life brings you,<br /><em>may it be gentle with you.</em>
+            </div>
+            <span class="cinematic-note__heart">♡</span>
+          </div>
+        </div>
+      </section>
+
       <footer class="footer">
         <div class="a">end of the little universe</div>
         <div class="b">Some memories are better kept softly.</div>
@@ -1863,6 +3793,380 @@
           behavior: "smooth",
         });
       });
+
+      // Living journey map — scroll reveals the path, nodes float, and the timeline reacts to the pointer.
+      (() => {
+        const stage = document.getElementById("storyStage");
+        const path = document.getElementById("journeyMainPath");
+        if (!stage || !path) return;
+        const events = [...stage.querySelectorAll(".sm-event")];
+        const nodes = [...stage.querySelectorAll(".sm-node")];
+        const reduceMotion = matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        path.style.strokeDasharray = path.getTotalLength();
+        path.style.strokeDashoffset = path.getTotalLength();
+        if (window.gsap && window.ScrollTrigger && !reduceMotion) {
+          gsap.to(path, {
+            strokeDashoffset: 0,
+            ease: "none",
+            scrollTrigger: {
+              trigger: stage,
+              start: "top 78%",
+              end: "bottom 35%",
+              scrub: 1.1,
+            },
+          });
+          events.forEach((el, i) =>
+            gsap.to(el, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: el,
+                start: "top 88%",
+                toggleActions: "play none none reverse",
+              },
+              delay: i * 0.03,
+            }),
+          );
+          nodes.forEach((node, i) =>
+            gsap.to(node, {
+              rotation: i % 2 ? 2 : -2,
+              yoyo: true,
+              repeat: -1,
+              duration: 2.6 + i * 0.25,
+              ease: "sine.inOut",
+              delay: i * 0.12,
+            }),
+          );
+        } else {
+          events.forEach((el) => {
+            el.style.opacity = 1;
+            el.style.transform = "none";
+          });
+          path.style.strokeDashoffset = 0;
+        }
+        let tx = 0,
+          ty = 0,
+          px = 0,
+          py = 0;
+        stage.addEventListener(
+          "pointermove",
+          (e) => {
+            const r = stage.getBoundingClientRect();
+            tx = (e.clientX - r.left) / r.width - 0.5;
+            ty = (e.clientY - r.top) / r.height - 0.5;
+          },
+          { passive: true },
+        );
+        const drift = () => {
+          px += (tx - px) * 0.055;
+          py += (ty - py) * 0.055;
+          stage.querySelectorAll(".dust").forEach((d, i) => {
+            d.style.transform = `translate3d(${px * (i + 1) * 7}px,${py * (i + 1) * 5}px,0)`;
+          });
+          if (!reduceMotion) requestAnimationFrame(drift);
+        };
+        if (!reduceMotion) drift();
+        const tip = document.createElement("div");
+        tip.className = "sm-tooltip";
+        document.body.appendChild(tip);
+        nodes.forEach((node) => {
+          node.addEventListener("pointerenter", () => {
+            tip.textContent = node.dataset.tip || "a little moment";
+            tip.style.opacity = "1";
+          });
+          node.addEventListener("pointermove", (e) => {
+            tip.style.left = e.clientX + "px";
+            tip.style.top = e.clientY + "px";
+          });
+          node.addEventListener(
+            "pointerleave",
+            () => (tip.style.opacity = "0"),
+          );
+          node.addEventListener("click", () => {
+            const event = node.closest(".sm-event");
+            events.forEach((x) => x.classList.remove("sm-selected"));
+            event.classList.add("sm-selected");
+            // A lightweight ripple + particle response for every milestone.
+            const burst = document.createElement("span");
+            burst.className = "sm-click-ring";
+            node.appendChild(burst);
+            const burst2 = document.createElement("span");
+            burst2.className = "sm-click-ring r2";
+            node.appendChild(burst2);
+            for (let k = 0; k < 9; k++) {
+              const spark = document.createElement("i");
+              spark.className = "sm-click-spark";
+              const a = (Math.PI * 2 * k) / 9 + (Math.random() - 0.5) * 0.35,
+                d = 45 + Math.random() * 42;
+              spark.style.setProperty("--sx", Math.cos(a) * d + "px");
+              spark.style.setProperty("--sy", Math.sin(a) * d + "px");
+              node.appendChild(spark);
+              setTimeout(() => spark.remove(), 900);
+            }
+            setTimeout(() => {
+              burst.remove();
+              burst2.remove();
+            }, 1050);
+            if (window.gsap) {
+              gsap.fromTo(
+                node,
+                { scale: 1.18 },
+                { scale: 1, duration: 0.75, ease: "elastic.out(1,.5)" },
+              );
+            }
+            // The YES moment gets a one-off, warmer celebration around the node.
+            if (event.classList.contains("sm-feature")) {
+              const flash = document.createElement("div");
+              flash.className = "sm-yes-flash";
+              stage.appendChild(flash);
+              const glyphs = [
+                "✦",
+                "♡",
+                "·",
+                "✧",
+                "♡",
+                "✦",
+                "·",
+                "♡",
+                "✧",
+                "·",
+                "♡",
+                "✦",
+                "·",
+                "♡",
+                "✧",
+                "✦",
+              ];
+              glyphs.forEach((g, k) => {
+                const el = document.createElement("span");
+                el.className = k % 5 === 0 ? "sm-yes-heart" : "sm-yes-petal";
+                el.textContent = g;
+                const a =
+                    (Math.PI * 2 * k) / glyphs.length +
+                    (Math.random() - 0.5) * 0.28,
+                  d = 80 + Math.random() * 115;
+                el.style.setProperty("--sx", Math.cos(a) * d + "px");
+                el.style.setProperty("--sy", Math.sin(a) * d - 35 + "px");
+                el.style.setProperty(
+                  "--rot",
+                  (Math.random() - 0.5) * 80 + "deg",
+                );
+                el.style.animationDelay = Math.random() * 0.12 + "s";
+                stage.appendChild(el);
+                setTimeout(() => el.remove(), 1550);
+              });
+              setTimeout(() => flash.remove(), 1450);
+            }
+          });
+        });
+      })();
+
+      // Cinematic final note — letters reveal softly as each passage enters the viewport.
+      (() => {
+        const note = document.getElementById("cinematicNote");
+        if (!note || !window.gsap || !window.ScrollTrigger) return;
+
+        const chapters = [...note.querySelectorAll(".cinematic-note__chapter")];
+        const final = note.querySelector(".cinematic-note__final");
+        const finalLine = note.querySelector(".cinematic-note__final-line");
+        const heart = note.querySelector(".cinematic-note__heart");
+
+        note
+          .querySelectorAll(
+            ".cinematic-note__text strong, .cinematic-note__text p",
+          )
+          .forEach((el) => {
+            const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+            nodes.forEach((node) => {
+              if (!node.nodeValue.trim()) return;
+              const fragment = document.createDocumentFragment();
+              node.nodeValue.split(/(\s+)/).forEach((part) => {
+                if (/^\s+$/.test(part)) {
+                  fragment.appendChild(document.createTextNode(part));
+                  return;
+                }
+                const word = document.createElement("span");
+                word.className = "cn-word";
+                [...part].forEach((char) => {
+                  const span = document.createElement("span");
+                  span.className = "cn-char";
+                  span.textContent = char;
+                  word.appendChild(span);
+                });
+                fragment.appendChild(word);
+              });
+              node.parentNode.replaceChild(fragment, node);
+            });
+          });
+
+        if (reduce) {
+          gsap.set(note.querySelectorAll(".cinematic-note__text, .cn-char"), {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+          });
+          gsap.set(finalLine, { opacity: 1, y: 0, scale: 1 });
+          gsap.set(heart, { opacity: 1, scale: 1 });
+          return;
+        }
+
+        chapters.forEach((chapter, index) => {
+          const text = chapter.querySelector(".cinematic-note__text");
+          const chars = [...chapter.querySelectorAll(".cn-char")];
+          const intro = chapter.querySelector("strong");
+          const body = chapter.querySelector("p");
+
+          ScrollTrigger.create({
+            trigger: chapter,
+            start: "top 74%",
+            end: "bottom 32%",
+            onEnter: () => {
+              chapter.classList.add("is-visible");
+              gsap.to(text, {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                duration: 1.15,
+                ease: "power3.out",
+              });
+              gsap.to(chars, {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                duration: 0.55,
+                stagger: { each: 0.008, from: "start" },
+                ease: "power2.out",
+                delay: 0.16,
+                overwrite: true,
+              });
+              gsap.fromTo(
+                intro,
+                { letterSpacing: "-.025em" },
+                { letterSpacing: ".005em", duration: 1.8, ease: "power2.out" },
+              );
+            },
+            onLeaveBack: () => {
+              chapter.classList.remove("is-visible");
+              gsap.to(text, {
+                opacity: 0,
+                y: 42,
+                filter: "blur(5px)",
+                duration: 0.55,
+                ease: "power2.in",
+              });
+              gsap.set(chars, { opacity: 0.16, y: 8, filter: "blur(3px)" });
+            },
+          });
+
+          gsap.to(text, {
+            yPercent: -5 + index,
+            ease: "none",
+            scrollTrigger: {
+              trigger: chapter,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.2,
+            },
+          });
+
+          if (body.querySelector(".love-line")) {
+            gsap.to(body.querySelector(".love-line"), {
+              textShadow: "0 0 34px rgba(185,156,255,.38)",
+              repeat: -1,
+              yoyo: true,
+              duration: 2.4,
+              ease: "sine.inOut",
+              paused: true,
+            });
+            const loveTween = gsap.getTweensOf(
+              body.querySelector(".love-line"),
+            )[0];
+            ScrollTrigger.create({
+              trigger: chapter,
+              start: "top 70%",
+              onEnter: () => loveTween && loveTween.play(),
+              onLeaveBack: () => loveTween && loveTween.pause(0),
+            });
+          }
+        });
+
+        ScrollTrigger.create({
+          trigger: final,
+          start: "top 72%",
+          onEnter: () => final.classList.add("is-visible"),
+          onLeaveBack: () => final.classList.remove("is-visible"),
+        });
+        gsap.fromTo(
+          finalLine,
+          { opacity: 0, y: 30, scale: 0.98 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.6,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: final,
+              start: "top 72%",
+              toggleActions: "play none none reverse",
+            },
+          },
+        );
+        gsap.fromTo(
+          heart,
+          { opacity: 0, scale: 0.7 },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1.1,
+            delay: 0.35,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+              trigger: final,
+              start: "top 66%",
+              toggleActions: "play none none reverse",
+            },
+          },
+        );
+      })();
+
+      // Scrapbook gallery lightbox.
+      (() => {
+        const gallery = document.getElementById("memoryGallery");
+        const lightbox = document.createElement("div");
+        lightbox.className = "memory-gallery__lightbox";
+        lightbox.innerHTML = `<div class="memory-gallery__lightbox-inner"><button class="memory-gallery__lightbox-close" aria-label="Close">x</button><img alt=""><div class="memory-gallery__lightbox-title"></div><div class="memory-gallery__lightbox-meta"></div></div>`;
+        document.body.appendChild(lightbox);
+        const image = lightbox.querySelector("img");
+        const title = lightbox.querySelector(".memory-gallery__lightbox-title");
+        const meta = lightbox.querySelector(".memory-gallery__lightbox-meta");
+        const close = () => lightbox.classList.remove("open");
+        gallery.querySelectorAll(".memory-gallery__card").forEach((card) =>
+          card.addEventListener("click", () => {
+            image.src = card.querySelector("img").src;
+            image.alt = card.querySelector("img").alt;
+            title.textContent = card.dataset.title;
+            meta.textContent = `memory / ${card.dataset.num}`;
+            lightbox.classList.add("open");
+          }),
+        );
+        lightbox
+          .querySelector(".memory-gallery__lightbox-close")
+          .addEventListener("click", close);
+        lightbox.addEventListener("click", (event) => {
+          if (event.target === lightbox) close();
+        });
+        addEventListener("keydown", (event) => {
+          if (event.key === "Escape") close();
+        });
+      })();
     </script>
   </body>
 </html>
