@@ -1949,8 +1949,9 @@
       }
       .memory-gallery__grid {
         position: relative;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 30px 24px;
         max-width: 1180px;
         margin: auto;
@@ -1960,6 +1961,7 @@
       }
       .memory-gallery__card {
         position: relative;
+        flex: 0 1 calc((100% - 96px) / 5);
         padding: 10px 10px 42px;
         background: linear-gradient(
           145deg,
@@ -2096,9 +2098,11 @@
       }
       @media (max-width: 900px) {
         .memory-gallery__grid {
-          grid-template-columns: repeat(3, 1fr);
           gap: 24px 16px;
           padding: 28px 14px 42px;
+        }
+        .memory-gallery__card {
+          flex-basis: calc((100% - 32px) / 3);
         }
         .memory-gallery__note {
           grid-column: span 3;
@@ -2109,8 +2113,10 @@
           padding: 13vh 5vw 8vh;
         }
         .memory-gallery__grid {
-          grid-template-columns: repeat(2, 1fr);
           gap: 22px 12px;
+        }
+        .memory-gallery__card {
+          flex-basis: calc((100% - 12px) / 2);
         }
         .memory-gallery__note {
           grid-column: span 2;
@@ -2468,7 +2474,7 @@
     <script
       defer
       src="https://cloud.umami.is/script.js"
-      data-website-id="efedd9e8-76db-482e-aecc-7ab6a65ff486"
+      data-website-id="135119cb-ffa6-47a4-89fb-79b7aa6a77c6"
       data-performance="true"
     ></script>
   </head>
@@ -2982,7 +2988,9 @@
         <article class="letter-page reverse">
           <div class="letter-copy reveal">
             <div class="letter-index">05 / KEEP GOING</div>
-            <h3>Keep that smile.<br /><em>Keep making music.</em></h3>
+            <h3>
+              Keep that smile.<br /><em>That makes you the prettiest.</em>
+            </h3>
             <p>
               Wherever life takes you, I hope you keep being wonderfully
               yourself, and find every bit of happiness you deserve.
@@ -2990,7 +2998,7 @@
             <div class="aside">the next chapter is yours</div>
           </div>
           <div class="letter-image reveal">
-            <img src="assets/memory-4.jpg" alt="A distant memory" />
+            <img src="assets/memory-12.jpg" alt="A distant memory" />
           </div>
         </article>
         <div class="letter-divider"></div>
@@ -3418,13 +3426,19 @@
         particleGlow,
         universeParticles = [],
         particleTime = 0,
-        lastParticleFrame = 0;
+        lastParticleFrame = 0,
+        particleInitialized = false;
       const particleMouse = { x: -1e5, y: -1e5, vx: 0, vy: 0, active: false };
       let previousMouseX = 0,
         previousMouseY = 0;
       function resizeParticleUniverse() {
-        particleWidth = innerWidth;
-        particleHeight = innerHeight;
+        const nextWidth = innerWidth;
+        const nextHeight = innerHeight;
+        const widthChanged =
+          particleInitialized && Math.abs(nextWidth - particleWidth) > 1;
+
+        particleWidth = nextWidth;
+        particleHeight = nextHeight;
         particleDensity = Math.min(devicePixelRatio || 1, 1.25);
         particleCanvas.width = particleWidth * particleDensity;
         particleCanvas.height = particleHeight * particleDensity;
@@ -3447,6 +3461,11 @@
         particleGlow.addColorStop(0, "rgba(185,140,255,.065)");
         particleGlow.addColorStop(0.35, "rgba(125,75,205,.022)");
         particleGlow.addColorStop(1, "rgba(0,0,0,0)");
+        // Mobile browsers change innerHeight while their address bar expands/collapses.
+        // Preserve the live particle positions for height-only changes so the universe
+        // never snaps back to its original center during touch scrolling.
+        if (particleInitialized && !widthChanged) return;
+
         universeParticles = [];
         const count = Math.min(
           9000,
@@ -3484,6 +3503,7 @@
             hue: Math.random(),
           });
         }
+        particleInitialized = true;
       }
       addEventListener("resize", resizeParticleUniverse);
       addEventListener(
@@ -3748,7 +3768,7 @@
           scrollEnergy.toFixed(3),
         );
       });
-      // Cursor physics: fast dot, lazy halo, contextual label.
+      // Cursor physics: responsive dot, softer halo, contextual label.
       const dot = document.getElementById("cursorDot"),
         halo = document.getElementById("cursorHalo"),
         label = document.getElementById("cursorLabel");
@@ -3763,10 +3783,11 @@
         ty = y;
       }
       function cursorLoop() {
-        cx += (tx - cx) * 0.28;
-        cy += (ty - cy) * 0.28;
-        hx += (tx - hx) * 0.1;
-        hy += (ty - hy) * 0.1;
+        // Keep the dot responsive while retaining a softer trailing halo.
+        cx += (tx - cx) * 0.55;
+        cy += (ty - cy) * 0.55;
+        hx += (tx - hx) * 0.16;
+        hy += (ty - hy) * 0.16;
         dot.style.transform = `translate(${cx}px,${cy}px) translate(-50%,-50%)`;
         halo.style.transform = `translate(${hx}px,${hy}px) translate(-50%,-50%)`;
         label.style.transform = `translate(${hx}px,${hy}px) translate(-50%,-50%)`;
