@@ -6,7 +6,8 @@
       name="viewport"
       content="width=device-width,initial-scale=1,viewport-fit=cover"
     />
-    <title>For Reni — a little universe</title>
+    <title>For you...</title>
+    <link rel="icon" type="image/png" href="assets/gift_icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -2463,6 +2464,13 @@
         }
       }
     </style>
+    <!-- Umami Analytics -->
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="efedd9e8-76db-482e-aecc-7ab6a65ff486"
+      data-performance="true"
+    ></script>
   </head>
   <body>
     <div id="preloader">
@@ -3246,6 +3254,147 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js"></script>
     <script>
+      /* --- Umami interaction tracking --- */
+      (() => {
+        const pending = [];
+        let ready = false;
+
+        const flush = () => {
+          if (
+            typeof window.umami === "object" &&
+            typeof window.umami.track === "function"
+          ) {
+            ready = true;
+            while (pending.length) {
+              const [name, data] = pending.shift();
+              try {
+                window.umami.track(name, data);
+              } catch (_) {}
+            }
+            return true;
+          }
+          return false;
+        };
+
+        const track = (name, data) => {
+          if (flush()) {
+            try {
+              window.umami.track(name, data);
+            } catch (_) {}
+          } else {
+            pending.push([name, data]);
+          }
+        };
+
+        // Give the deferred tracker a chance to initialize before flushing queued events.
+        const waitTimer = setInterval(() => {
+          if (flush()) clearInterval(waitTimer);
+        }, 250);
+        setTimeout(() => clearInterval(waitTimer), 15000);
+
+        // Scroll depth: 25%, 50%, 75%, 90%, 100% — once per page visit.
+        const scrollMarks = [25, 50, 75, 90, 100];
+        const sentScroll = new Set();
+        let scrollTick = false;
+
+        const checkScrollDepth = () => {
+          scrollTick = false;
+          const max = Math.max(
+            1,
+            document.documentElement.scrollHeight - window.innerHeight,
+          );
+          const pct = Math.min(100, Math.round((window.scrollY / max) * 100));
+
+          for (const mark of scrollMarks) {
+            if (pct >= mark && !sentScroll.has(mark)) {
+              sentScroll.add(mark);
+              track("scroll-depth", { percent: mark });
+            }
+          }
+        };
+
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!scrollTick) {
+              scrollTick = true;
+              requestAnimationFrame(checkScrollDepth);
+            }
+          },
+          { passive: true },
+        );
+        checkScrollDepth();
+
+        // Track when the major sections enter the viewport.
+        const sections = [
+          ["hero", ".hero"],
+          ["intro", ".intro"],
+          ["journey", "#journey"],
+          ["memories", ".memories"],
+          ["letter", ".letter"],
+          ["wish", ".wish"],
+          ["memory-gallery", "#memoryGallery"],
+          ["cinematic-note", "#cinematicNote"],
+        ];
+        const seenSections = new Set();
+
+        if ("IntersectionObserver" in window) {
+          const sectionObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                const section = entry.target.dataset.analyticsSection;
+                if (!section || seenSections.has(section)) return;
+                seenSections.add(section);
+                track("section-view", { section });
+                sectionObserver.unobserve(entry.target);
+              });
+            },
+            { threshold: 0.18 },
+          );
+
+          sections.forEach(([name, selector]) => {
+            const element = document.querySelector(selector);
+            if (element) {
+              element.dataset.analyticsSection = name;
+              sectionObserver.observe(element);
+            }
+          });
+        }
+
+        // Track meaningful interactions only — no high-frequency mouse tracking.
+        document.addEventListener("click", (event) => {
+          const milestone = event.target.closest(".sm-node");
+          if (milestone) {
+            const eventWrap = milestone.closest(".sm-event");
+            const title = eventWrap?.querySelector("h3")?.textContent?.trim();
+            track("journey-milestone", { milestone: title || "unknown" });
+            return;
+          }
+
+          const memory = event.target.closest(".memory-gallery__card");
+          if (memory) {
+            track("memory-open", {
+              memory: memory.dataset.num || "unknown",
+              title: memory.dataset.title || "",
+            });
+            return;
+          }
+
+          const heart = event.target.closest("#heart");
+          if (heart && !heart.dataset.analyticsTracked) {
+            heart.dataset.analyticsTracked = "true";
+            track("final-heart-click", { destination: "page-end" });
+            return;
+          }
+
+          const orb = event.target.closest(".orb");
+          if (orb && !orb.dataset.analyticsTracked) {
+            orb.dataset.analyticsTracked = "true";
+            track("intro-orb-click", { destination: "memories" });
+          }
+        });
+      })();
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
       let lenis;
       if (!reduce && window.Lenis) {
